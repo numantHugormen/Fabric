@@ -1,0 +1,23 @@
+# Welcome to your new notebook
+# Type here in the cell editor to add code!
+from delta.tables import *
+from pyspark.sql.functions import *
+
+lakehousePath = "abfss://c89241ee-7519-4e67-8cf6-fd90c1b75eb5@onelake.dfs.fabric.microsoft.com/00cf5ef5-2096-4a32-8030-a854c2533b66"
+# tableName = "Colors"
+# tableKey = "ColorID"
+# dateColumn = "ValidTo"
+
+deltaTablePath = f"{lakehousePath}/Tables/{tableName}" #fill in your delta table path 
+
+# print(deltaTablePath)
+# Get maxdate and number of records in table
+
+df = spark.read.format("delta").load(deltaTablePath)
+maxdate = df.agg(max(dateColumn)).collect()[0][0]
+rowcount = df.count()
+
+# print(maxdate)
+maxdate_str = maxdate.strftime("%Y-%m-%d %H:%M:%S")
+result = "maxdate="+maxdate_str +  "|rowcount="+str(rowcount)
+mssparkutils.notebook.exit(result)
