@@ -1,0 +1,29 @@
+-- ******************************************************
+-- *
+-- * Name:         sql_analyze_sales_by_time.txt
+-- *     
+-- * Design Phase:
+-- *     Author:   John Miner
+-- *     Date:     03-01-2024
+-- *     Purpose:  Combine tables for reporting.
+-- * 
+-- ******************************************************
+
+SELECT 
+  CalendarYear as RptYear,
+  Month as RptMonth,
+  Region as RptRegion,
+  Model as ModelNo,
+  SUM(Quantity) as TotalQty,
+  SUM(Amount) as TotalAmt
+FROM 
+  gold_report_data 
+GROUP BY
+  CalendarYear,
+  Month,
+  Region,
+  Model
+ORDER BY
+  CalendarYear,
+  Month,
+  Region

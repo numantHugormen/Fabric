@@ -1,0 +1,58 @@
+-- ******************************************************
+-- *
+-- * Name:         sql_gold_report_data.txt
+-- *     
+-- * Design Phase:
+-- *     Author:   John Miner
+-- *     Date:     03-01-2024
+-- *     Purpose:  Combine tables for reporting.
+-- * 
+-- ******************************************************
+
+CREATE VIEW gold_report_data
+AS
+SELECT
+   p.EnglishProductCategoryName
+  ,Coalesce(p.ModelName, p.EnglishProductName) AS Model
+  ,c.CustomerKey
+  ,s.SalesTerritoryGroup AS Region
+  , ABS(CAST((datediff(d, getdate(), c.BirthDate) / 365.25)AS INT)) as Age
+  ,CASE
+      WHEN c.YearlyIncome < 40000 THEN 'Low'
+      WHEN c.YearlyIncome > 60000 THEN 'High'
+      ELSE 'Moderate'
+  END AS IncomeGroup
+  ,d.CalendarYear
+  ,d.FiscalYear
+  ,d.MonthNumberOfYear AS Month
+  ,f.SalesOrderNumber AS OrderNumber
+  ,f.SalesOrderLineNumber AS LineNumber
+  ,f.OrderQuantity AS Quantity
+  ,f.ExtendedAmount AS Amount   
+FROM
+  silver_fact_internet_sales_full as f
+INNER JOIN 
+  silver_dim_date_full as d
+ON 
+  f.OrderDateKey = d.DateKey
+
+INNER JOIN 
+  silver_dim_products as p
+ON 
+  f.ProductKey = p.ProductKey
+    
+INNER JOIN 
+  silver_dim_customer_full as c
+ON 
+  f.CustomerKey = c.CustomerKey
+
+INNER JOIN 
+  silver_dim_geography_full as g
+ON 
+  c.GeographyKey = g.GeographyKey
+
+INNER JOIN 
+  silver_dim_sales_territory_full as s
+ON 
+  g.SalesTerritoryKey = s.SalesTerritoryKey 
+GO

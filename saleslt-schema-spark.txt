@@ -1,0 +1,237 @@
+
+--
+-- 5 - create table - currency
+--
+
+CREATE TABLE dim_currency
+(
+	CurrencyKey int,
+	CurrencyAlternateKey string,
+	CurrencyName string 
+);
+
+
+--
+-- 6 - create table - customer
+--
+
+CREATE TABLE dim_customer
+(
+	CustomerKey int,
+	GeographyKey int,
+	CustomerAlternateKey string,
+	Title string,
+	FirstName string,
+	MiddleName string,
+	LastName string,
+	NameStyle int,
+	BirthDate date,
+	MaritalStatus string,
+	Suffix string,
+	Gender string,
+	EmailAddress string,
+	YearlyIncome decimal(19, 4),
+	TotalChildren int,
+	NumberChildrenAtHome int,
+	EnglishEducation string,
+	SpanishEducation string,
+	FrenchEducation string,
+	EnglishOccupation string,
+	SpanishOccupation string,
+	FrenchOccupation string,
+	HouseOwnerFlag string,
+	NumberCarsOwned int,
+	AddressLine1 string,
+	AddressLine2 string,
+	Phone string,
+	DateFirstPurchase date,
+	CommuteDistance string 
+);
+
+
+--
+-- 7 - create table - customer
+--
+
+CREATE TABLE dim_date
+(
+    DateKey int,
+	FullDateAlternateKey date,
+	DayNumberOfWeek int,
+	EnglishDayNameOfWeek string,
+	SpanishDayNameOfWeek string,
+	FrenchDayNameOfWeek string,
+	DayNumberOfMonth int,
+	DayNumberOfYear int,
+	WeekNumberOfYear int,
+	EnglishMonthName string,
+	SpanishMonthName string,
+	FrenchMonthName string,
+	MonthNumberOfYear int,
+	CalendarQuarter int,
+	CalendarYear int,
+	CalendarSemester int,
+	FiscalQuarter int,
+	FiscalYear int,
+	FiscalSemester int
+);
+
+
+--
+-- 8 - create table - geography
+--
+
+CREATE TABLE dim_geography
+(
+	GeographyKey int,
+	City string,
+	StateProvinceCode string,
+	StateProvinceName string,
+	CountryRegionCode string,
+	EnglishCountryRegionName string,
+	SpanishCountryRegionName string,
+	FrenchCountryRegionName string,
+	PostalCode string,
+	SalesTerritoryKey int,
+	IpAddressLocator string
+);
+
+
+--
+-- 9 - create table - product
+--
+
+CREATE TABLE dim_product
+(
+	ProductKey int,
+	ProductAlternateKey string,
+	ProductSubcategoryKey int,
+	WeightUnitMeasureCode string,
+	SizeUnitMeasureCode string,
+	EnglishProductName string,
+	SpanishProductName string,
+	FrenchProductName string,
+	StandardCost decimal(19, 4),
+	FinishedGoodsFlag boolean,
+	Color string,
+	SafetyStockLevel int,
+	ReorderPoint int,
+	ListPrice decimal(19, 4),
+	Size string,
+	SizeRange string,
+	Weight decimal(19, 4),
+	DaysToManufacture int,
+	ProductLine string,
+	DealerPrice decimal(19, 4),
+	Class string,
+	Style string,
+	ModelName string,
+	StartDate datetime,
+	EndDate datetime,
+	Status string 
+);
+
+
+--
+-- 10 - create table - product category
+--
+
+CREATE TABLE dim_product_category
+(
+	ProductCategoryKey int,
+	ProductCategoryAlternateKey int,
+	EnglishProductCategoryName string,
+	SpanishProductCategoryName string,
+	FrenchProductCategoryName string 
+);
+
+
+--
+-- 11 - create table - product subcategory
+--
+
+CREATE TABLE dim_product_subcategory
+(
+	ProductSubcategoryKey int,
+	ProductSubcategoryAlternateKey int,
+	EnglishProductSubcategoryName string,
+	SpanishProductSubcategoryName string,
+	FrenchProductSubcategoryName string,
+	ProductCategoryKey int
+);
+
+
+--
+-- 12 - create table - sales reason
+--
+
+CREATE TABLE dim_sales_reason
+(
+    SalesReasonKey int,
+	SalesReasonAlternateKey int,
+	SalesReasonName string,
+	SalesReasonReasonType string 
+);
+
+
+
+--
+-- 13 - create table - sales territory
+--
+
+CREATE TABLE dim_sales_territory
+(
+	SalesTerritoryKey int,
+	SalesTerritoryAlternateKey int,
+	SalesTerritoryRegion string,
+	SalesTerritoryCountry string,
+	SalesTerritoryGroup string
+);
+
+
+--
+-- 13 - create table - fact internet sales
+--
+
+CREATE TABLE fact_internet_sales
+(
+	ProductKey int,
+	OrderDateKey int,
+	DueDateKey int,
+	ShipDateKey int,
+	CustomerKey int,
+	PromotionKey int,
+	CurrencyKey int,
+	SalesTerritoryKey int,
+	SalesOrderNumber string,
+	SalesOrderLineNumber int,
+	RevisionNumber int,
+	OrderQuantity int,
+	UnitPrice decimal(19, 4),
+	ExtendedAmount decimal(19, 4),
+	UnitPriceDiscountPct decimal(19, 4),
+	DiscountAmount decimal(19, 4),
+	ProductStandardCost decimal(19, 4),
+	TotalProductCost decimal(19, 4),
+	SalesAmount decimal(19, 4),
+	TaxAmt decimal(19, 4),
+	Freight decimal(19, 4),
+	CarrierTrackingNumber string,
+	CustomerPONumber string,
+	OrderDate datetime,
+	DueDate datetime,
+	ShipDate datetime
+);
+
+
+--
+-- 14 - create table - fact internet sales reason
+--
+
+CREATE TABLE fact_internet_sales_reason
+(
+	SalesOrderNumber string,
+	SalesOrderLineNumber int,
+	SalesReasonKey int
+);
+

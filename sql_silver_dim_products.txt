@@ -1,0 +1,52 @@
+-- ******************************************************
+-- *
+-- * Name:         sql_silver_dim_products.txt
+-- *     
+-- * Design Phase:
+-- *     Author:   John Miner
+-- *     Date:     03-01-2024
+-- *     Purpose:  Combine 3 tables into one view.
+-- * 
+-- ******************************************************
+
+CREATE VIEW [silver_dim_products]
+AS 
+SELECT
+  p.ProductKey, 
+  p.ProductAlternateKey, 
+  p.WeightUnitMeasureCode, 
+  p.SizeUnitMeasureCode, 
+  p.EnglishProductName,
+  p.StandardCost, 
+  p.FinishedGoodsFlag, 
+  p.Color, 
+  p.SafetyStockLevel, 
+  p.ReorderPoint, 
+  p.ListPrice, 
+  p.Size,  
+  p.SizeRange, 
+  p.Weight, 
+  p.DaysToManufacture, 
+  p.ProductLine, 
+  p.DealerPrice, 
+  p.Class, 
+  p.Style, 
+  p.ModelName, 
+  p.StartDate, 
+  p.EndDate, 
+  p.Status,
+  sc.ProductSubcategoryKey, 
+  sc.ProductSubcategoryAlternateKey, 
+  sc.EnglishProductSubcategoryName,
+  pc.ProductCategoryKey, 
+  pc.EnglishProductCategoryName
+FROM 
+  silver_dim_product_full as p
+JOIN 
+  silver_dim_product_subcategory_full as sc 
+ON 
+  p.ProductSubcategoryKey = sc.ProductSubcategoryKey
+JOIN 
+  silver_dim_product_category_full as pc
+ON 
+  pc.ProductCategoryKey = sc.ProductCategoryKey;
